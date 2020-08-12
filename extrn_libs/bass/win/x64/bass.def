@@ -1,0 +1,2 @@
+; dlltool -z bass.def --export-all-symbol bass.dll
+EXPORTS

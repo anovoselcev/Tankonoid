@@ -1,0 +1,47 @@
+CC = gcc
+C_STD= gnu99
+STD = -std=$(C_STD)
+OS =win
+ARH = x32
+name = TANKONOID
+TARGET = .\bin\$(ARH)\$(name)_$(ARH).exe
+INCS =  -I".\extrn_include"
+CFLAGS = $(INCS) -Wall -O2 -msse -msse2 -mfpmath=sse
+
+EXTRN_LIB =.\extrn_libs
+GLFW_LD_PATH = -L"$(EXTRN_LIB)/GLFW/$(OS)/$(ARH)"
+GLEW_LD_PATH = -L"$(EXTRN_LIB)\GLEW\$(OS)\$(ARH)"
+RGLMATH_LD_PATH = -L"$(EXTRN_LIB)\rglMath\$(OS)\$(ARH)"
+RGLIMAGE_LD_PATH = -L"$(EXTRN_LIB)\rglImage\$(OS)\$(ARH)"
+FREETYPE_LD_PATH = -L"$(EXTRN_LIB)\freetype\$(OS)\$(ARH)"
+BASS_LD_PATH = -L"$(EXTRN_LIB)\bass\$(OS)\$(ARH)"
+GLFW_NAME =glfw3dll
+GLEW_NAME =glew32
+GL_NAME =opengl32
+MINGW_NAME =mingw32
+RGLMATH_NAME =rglMath
+RGLIMAGE_NAME =rglImage
+FREETYPE_NAME =freetypedll
+BASS_NAME =bass
+L_GLFW= -l$(GLFW_NAME)
+L_GLEW= -l$(GLEW_NAME)
+L_GL= -l$(GL_NAME)
+L_MINGW= -l$(MINGW_NAME)
+L_RGLMATH= -l$(RGLMATH_NAME)_$(ARH)
+L_RGLIMAGE= -l$(RGLIMAGE_NAME)_$(ARH)
+L_FREETYPE= -l$(FREETYPE_NAME)
+L_BASS= -l$(BASS_NAME)
+
+LIBS =  $(L_MINGW) $(L_GL) $(L_GLEW) $(L_GLFW) $(L_RGLMATH) $(L_RGLIMAGE) $(L_FREETYPE) $(L_BASS) -lm 
+LDFLAGS = $(GLFW_LD_PATH) $(GLEW_LD_PATH) $(RGLMATH_LD_PATH) $(RGLIMAGE_LD_PATH) $(FREETYPE_LD_PATH) $(BASS_LD_PATH) $(LIBS)
+
+
+OBJ  = ./src/info.o ./src/win.o ./src/callback.o ./src/ogl.o ./src/texture.o ./src/main.o 
+
+%.o:%.c
+	$(CC) $(STD) $(CFLAGS) -c $<  -o $@ 
+
+$(TARGET): $(OBJ)
+	$(CC) $(STD) $^ -o $@ $(LDFLAGS)
+	del .\src\*.o
+
